@@ -20,11 +20,20 @@ const batman = {
 };
 const caitlyn ={
     nome:"Caitlyn",
-    imagem:"img/caitlyn.jpg",
+    imagem:"img/Caitlyn.jpg",
     atributos:{
         ataque:7,
         defesa:5,
         magia:1
+    }
+};
+const bulba = {
+    nome:"Bulba",
+    imagem: "img/bulba.png",
+    atributos:{
+        ataque: 7,
+        defesas: 5,
+        magia: 0
     }
 };
 
@@ -38,11 +47,70 @@ const harry = {
     }
 }
 
-const cartas = [naruto , batman];
+const jaspion = {
+    nome:"Jaspion",
+    imagem:"img/jaspion.jpg",
+    atributos:{
+        ataque:9,
+        defesa:8,
+        magia:4
+    }
+}
+
+const pantera= {
+    nome:"Pantera Cor de Rosa",
+    imagem:"img/pantera.jpg",
+    atributos:{
+        ataque:3,
+        defesa:6,
+        magia:3
+    }
+}
+
+const jiraya = {
+    nome:"Jiraya",
+    imagem:"img/jiraya.png",
+    atributos:{
+        ataque:9,
+        defesa:8,
+        magia:5
+    }
+}
+const seya= {
+    nome:"Seya",
+    imagem:"img/seya.jpg",
+    atributos:{
+        ataque:8,
+        defesa:6,
+        magia:6
+    }
+}
+
+const darthvader = {
+    nome: "Darthvader",
+    imagem:"img/darthvader.jpg",
+    atributos:{
+        ataque:5,
+        defesa:4,
+        magia:4
+    }
+}
+
+const aranha = {
+    nome:"Homem aranha",
+    imagem:"img/aranha.webp",
+    atributos:{
+        ataque:7,
+        defesa:6,
+        magia:1
+    }
+}
+
+const cartas = [naruto , batman , caitlyn ,bulba , harry,jaspion, pantera,jiraya,seya,darthvader,aranha];
 let cartaJogador, cartaMaquina;
 
 function SortearCarta(){
-    const numeroDeCartas = 2;
+    const numeroDeCartas = cartas.length;
     let numeroCartaJogador = parseInt(Math.random()*numeroDeCartas);
     let numeroCartaMaquina = parseInt(Math.random()*numeroDeCartas);
     while (numeroCartaJogador == numeroCartaMaquina){
@@ -72,10 +140,16 @@ function ExibirCartaMaquina(){
     document.querySelector(".nome-personagem-maquina").innerText = cartaMaquina.nome;
     
     let listaDeAtributosDaCarta = document.querySelector(".atributos-maquina");
-    listaDeAtributosDaCarta.innerHTML = PegarAtributos(cartaJogador.atributos); 
+    listaDeAtributosDaCarta.innerHTML = PegarAtributosMaquina(cartaMaquina.atributos); 
 }
 
-function PegarAtributosMaquina(){
+function PegarAtributosMaquina(atributosDaCarta){
+    let listaDeAtributos = "";
+    for(let atributo in atributosDaCarta){
+        listaDeAtributos +=`<li>${atributo} : ${atributosDaCarta[atributo]}</li>`;
+    }
+
+    return listaDeAtributos;
 
 }
 
@@ -95,8 +169,26 @@ const btnSortear = document.querySelector("#btnSortear");
 btnSortear.onclick = () =>{
     SortearCarta();
     ExibirCartaJogador();
-    ExibirCartaMaquina();
+    
+    document.querySelector("#btnJogar").disabled= false;
 
-    document.querySelector("#btnJogar").disabled = false;
+};
+
+const btnJogar = document.querySelector("#btnJogar");
+btnJogar.onclick = () => {
+    ExibirCartaMaquina();
+    let atributoJogador = document.querySelector("input[name='atributo']:checked").value;
+    let atributoMaquina = cartaMaquina.atributos[atributosEscolhido];
+
+    if (atributoJogador == atributoMaquina){
+        document.querySelector("#resultado").innerHTML = "<h1>EMPATE</h1>";
+
+    }else if(atributoJogador > atributoMaquina){
+        document.querySelector("#resultado").innerHTML = "<h1>JOGADOR VENCEU!</h1>";
+
+    }else if(atributoJogador < atributoMaquina){
+        document.querySelector("#resultado").innerHTML = "<H1>MÁQUINA VENCEU!</h1>";
+
+    }
 
 };
